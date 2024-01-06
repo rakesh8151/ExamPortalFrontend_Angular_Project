@@ -1,0 +1,43 @@
+<h1>Questions of {{title}}</h1>
+<div class="bootstrap-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container text-center">
+                <button 
+                [routerLink]="'/admin/add-question/'+quizId+'/'+title"
+                mat-raised-button color="accent" class="mb10"> Add Question</button>
+            </div>
+            <mat-card class="mt10" *ngFor="let q of questions; let i=index">
+                <mat-card-content>
+                    <p>
+                       <b> Q {{i+1}})</b><span class="ml20" [innerHTML]="q['content']"></span>
+                    </p>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><b class="mr10">1)</b>{{q['option1']}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b class="mr10">2)</b>{{q['option2']}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><b class="mr10">3)</b>{{q['option3']}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b class="mr10">4)</b>{{q['option4']}}</p>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <p class="mt20"><b>Correct Answer :</b> {{q['answer']}}</p>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions class="ml10">
+                    <button mat-button color="warn" (click)="deleteQuestion(q['quesId'])">Delete</button>
+                    <button mat-button color="primary">Update</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
