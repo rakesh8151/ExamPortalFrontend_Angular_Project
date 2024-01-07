@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { QuizService } from '../../../services/quiz.service';
 import { error } from 'console';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
     MatInputModule,
     MatListModule,
     FormsModule,
+    RouterLink,
   ],
   templateUrl: './load-quiz.component.html',
   styleUrl: './load-quiz.component.css'
@@ -29,7 +30,6 @@ import { MatListModule } from '@angular/material/list';
 export class LoadQuizComponent {
   catId = -1;
   quizzes = [];
-  quiz = {};
   constructor(private route: ActivatedRoute,
     private quizService: QuizService,
     private snack: MatSnackBar) { }
@@ -40,7 +40,7 @@ export class LoadQuizComponent {
       this.catId = params['catId'];
       if (this.catId == 0) {
         //load all quiz
-        this.quizService.Quizzes().subscribe(
+        this.quizService.activeQuizzes().subscribe(
           (data: any) => {
             this.quizzes = data
           },
@@ -51,12 +51,13 @@ export class LoadQuizComponent {
           }
         );
       } else if (this.catId != -1) {
-       // load specific quiz
-        this.quizService.getQuizzesOfCategory(this.catId).subscribe(
+        // load specific quiz
+        this.quizService.activeQuizzesOfCategory(this.catId).subscribe(
           (data: any) => {
             this.quizzes = data
           },
           (error) => {
+            console.log(error);
             this.snack.open('Error in loading quiz from server', '', {
               duration: 3000
             });
