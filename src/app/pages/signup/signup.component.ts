@@ -10,6 +10,7 @@ import { UserServiceService } from '../../services/user-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -31,7 +32,7 @@ import Swal from 'sweetalert2'
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-constructor(private userService:UserServiceService,private snack:MatSnackBar){}
+constructor(private userService:UserServiceService,private snack:MatSnackBar,private router:Router){}
   public user={
     username:'',
     password:'',
@@ -56,7 +57,12 @@ constructor(private userService:UserServiceService,private snack:MatSnackBar){}
         console.log(data);
         
        // alert("success");
-        Swal.fire("Successfully done","user id is "+data.id,'success')
+        Swal.fire("Successfully done","user id is "+data.id,'success').then((res)=>{
+         if(res.isConfirmed){
+          this.router.navigate(["/login"])
+         }
+        })
+        
       },
       (error:any)=>{
         //error
